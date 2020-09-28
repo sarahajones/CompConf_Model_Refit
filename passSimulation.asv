@@ -1,4 +1,4 @@
-function response = passSimulation (freeParams, designMatrix)
+ function response = passSimulation (freeParams, designMatrix)
 
 %vector of free params
 % {lapse_rate, 10x sigma_X (5x2), metaCognoise, 10x thresh}
@@ -16,27 +16,12 @@ end
 %design matrix 
 % needs splicing into the S data struct shape
 %matrix is nTrials long,and has columns 
-nTrials = ;
-S.nTrials = nTrials; 
-%Target, Stimulus, numGabor, ContrastLevel, 
-
-
-%VISUAL CONTRAST LEVEL PER TRIAL 
-S.ContrastLevel = zeros(S.nTrials, 1);
-for iTrial = 1:S.nTrials
-    S.indexofInterest(iTrial,1) = randperm(5,1);
-    S.ContrastLevel(iTrial,1) = fixedParam.contrasts(S.indexofInterest(iTrial,1));
-end
-
-%set block type
-for iTrial = 1:S.nTrials
-    if S.numGabor(iTrial) == 1
-        S.BlockType(iTrial,1) = 0; 
-    else
-        S.BlockType(iTrial,1) = 1;
-    end
-end
-
+%nTrials, Stimulus, numGabor, ContrastLevel,Block Type 
+S.nTrials = length(designMatrix);
+S.Stimulus = designMatrix(:, 2);
+S.numGabor = designMatrix(:, 1);
+S.ContrastLevel = designMatrix(:, 3);
+S.BlockType = designMatrix(:, 4); 
 
 %OUT
 %matrix of responses and confidence
