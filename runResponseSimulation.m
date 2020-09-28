@@ -15,7 +15,7 @@ Response.Confidence = computeConfidence(S.nTrials, Data,  fixedParam.sigma_s, fi
 %% prep DATA.STRUCT for binning
 %%USE THE THRESHHOLDS (NEED DISCRETE VARIABLE)   
 
-Data.pDivisions = cell2mat(freeParam.thresh);
+Data.pDivisions = freeParam.thresh;
 
 breaks = quantile(Response.Confidence, Data.pDivisions);
 Response.binnedConfidence = discretize(Response.Confidence, breaks);

@@ -5,12 +5,12 @@
 %this needs converting to a data structure space 
 %take vector of params splice into parts of the data struct 
 freeParam.lapseRate = freeParams(1);
-freeParam.sigma_X = [freeParams(2), freeParams(3),freeParams(4),freeParams(5),freeParams(6);
-    freeParams(7),freeParams(8), freeParams(9),freeParams(10)];
+freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),freeParams(6);
+    freeParams(7),freeParams(8), freeParams(9),freeParams(10), freeParams(11)];
 
-freeParam.metacogNoise = freeParams(11);
-for i = 12:21
-freeParam.thresh(i-11) = freeParams(i);
+freeParam.metacogNoise = freeParams(12);
+for i = 13:21
+freeParam.thresh(i-12) = freeParams(i);
 end
 
 %design matrix 
@@ -23,9 +23,19 @@ S.numGabor = designMatrix(:, 1);
 S.ContrastLevel = designMatrix(:, 3);
 S.BlockType = designMatrix(:, 4); 
 
+%Add key values and terms
+%set fixed params 
+fixedParam.mu_cat1 = (1/16).*(pi);
+fixedParam.mu_cat2 = (-1/16).*(pi);
+fixedParam.kappa_s = 7;%%kappa (concentration parameter, needs to be convereted for derivations to sigma)
+fixedParam.sigma_s = sqrt(1/7);
+fixedParam.contrasts = [0.1, 0.2, 0.3, 0.4, 0.8]; %external noise
+fixedParam.prior = 0.5; %assume neutral prior for symmetry of decisions
 
+%CHOOSE MODEL
+S.Model = 1;
 
 %OUT
 %matrix of responses and confidence
-response = runTrialSimulation;
+response = runTrialSimulation(fixedParam, S, freeParam);
 end

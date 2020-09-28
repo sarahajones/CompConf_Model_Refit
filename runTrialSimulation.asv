@@ -13,7 +13,7 @@ for iTrial = 1:S.nTrials
         end
     elseif model.ModelFit == 2
         model.ModelType(iTrial,1) = 0; %always normative
-    elseif mdoel.ModelFit == 3
+    elseif model.ModelFit == 3
          if S.BlockType(iTrial,1) == 1
             model.ModelType(iTrial,1) = 0; %normative for 2 gabors
         else
@@ -40,10 +40,11 @@ end
 %% NOISE TO GAIN MEASURE X (PERCEPT)
 %apply noise to the orientation to gain percept value
 for iTrial = 1:S.nTrials
+    indexofInterest = randn(5,1)
     if S.numGabor == 1
-       Data.Sigma_X(iTrial,1) = freeParam.sigma_X(1, S.indexofInterest(iTrial,1));
+       Data.Sigma_X(iTrial,1) = freeParam.sigma_X(1, indexofInterest);
     else
-       Data.Sigma_X(iTrial,1) = freeParam.sigma_X(2, S.indexofInterest(iTrial,1));
+       Data.Sigma_X(iTrial,1) = freeParam.sigma_X(2, indexofInterest);
     end
 end
 %housekeeping to pass off to percept function

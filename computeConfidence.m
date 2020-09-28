@@ -4,7 +4,7 @@ posteriorRatio = zeros(nTrials,1);
 
 for iTrial = 1:nTrials  
     metaNoise = randn(1, 1)+(Data.metacognitiveNoise); %computes norm dist of noise
-    metaNoise = 0;
+    %metaNoise = 0;
     %plot avg conf as function of percept
     
     if ModelType(iTrial, 1) == 0
@@ -37,8 +37,8 @@ for iTrial = 1:nTrials
            conf(iTrial,1) = (1 / (1 + (posteriorRatio(iTrial,1))));
          end
     end
-    if conf(iTrial,1) < 0.5 
-              error('Code not functioning as expected')
-    end
+    %if conf(iTrial,1) < 0.5 
+    %          error('Code not functioning as expected')
+    %end
 end      
 end

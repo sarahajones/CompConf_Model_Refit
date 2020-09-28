@@ -1,4 +1,4 @@
-function [Data, Response] = runTrialSimulation(fixedParam, S, freeParam)
+function [Response] = runTrialSimulation(fixedParam, S, freeParam)
 %% Establish models in a model struct
 model.ModelFitOptions = [1, 2, 3, 4]; % we have 4 models to choose from 
 model.ModelFit = model.ModelFitOptions(S.Model); %input model type from S here
@@ -40,10 +40,11 @@ end
 %% NOISE TO GAIN MEASURE X (PERCEPT)
 %apply noise to the orientation to gain percept value
 for iTrial = 1:S.nTrials
+    indexofInterest = Ranint(1,5);
     if S.numGabor == 1
-       Data.Sigma_X(iTrial,1) = freeParam.sigma_X(1, S.indexofInterest(iTrial,1));
+       Data.Sigma_X(iTrial,1) = freeParam.sigma_X(1, indexofInterest);
     else
-       Data.Sigma_X(iTrial,1) = freeParam.sigma_X(2, S.indexofInterest(iTrial,1));
+       Data.Sigma_X(iTrial,1) = freeParam.sigma_X(2, indexofInterest);
     end
 end
 %housekeeping to pass off to percept function
