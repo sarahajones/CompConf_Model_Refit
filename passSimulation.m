@@ -9,7 +9,7 @@ freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),f
     freeParams(7),freeParams(8), freeParams(9),freeParams(10), freeParams(11)];
 
 freeParam.metacogNoise = freeParams(12);
-for i = 13:21
+for i = 13:23
 freeParam.thresh(i-12) = freeParams(i);
 end
 
@@ -33,9 +33,16 @@ fixedParam.contrasts = [0.1, 0.2, 0.3, 0.4, 0.8]; %external noise
 fixedParam.prior = 0.5; %assume neutral prior for symmetry of decisions
 
 %CHOOSE MODEL
-S.Model = 1;
+%S.Model = 1;
 
 %OUT
-%matrix of responses and confidence
-response = runTrialSimulation(fixedParam, S, freeParam);
+%structure of responses and confidence
+Response = runTrialSimulation(fixedParam, S, freeParam);
+%TRANSFORM
+%response = MATRIX - row is trial and one column is response and 1 is binned confidence 
+for i = 1: S.nTrials
+    response(i, 1) = Response.Decision(i);
+    response(i, 2) = Response.binnedConfidence(i);
 end
+ end
+ 

@@ -23,9 +23,27 @@ S.numGabor = designMatrix(:, 1);
 S.ContrastLevel = designMatrix(:, 3);
 S.BlockType = designMatrix(:, 4); 
 
+%Add key values and terms
+%set fixed params 
+fixedParam.mu_cat1 = (1/16).*(pi);
+fixedParam.mu_cat2 = (-1/16).*(pi);
+fixedParam.kappa_s = 7;%%kappa (concentration parameter, needs to be convereted for derivations to sigma)
+fixedParam.sigma_s = sqrt(1/7);
+fixedParam.contrasts = [0.1, 0.2, 0.3, 0.4, 0.8]; %external noise
+fixedParam.prior = 0.5; %assume neutral prior for symmetry of decisions
 
+%CHOOSE MODEL
+S.Model = 1;
 
 %OUT
-%matrix of responses and confidence
-response = runTrialSimulation(fixedParam, S, freeParam);
+%structure of responses and confidence
+Response = runTrialSimulation(fixedParam, S, freeParam);
+%TRANSFORM
+%response = MATRIX - row is trial and one column is response and 1 is binned confidence 
+for i = 1: S.nTrials
+    response(i, 1) = Response.Decision(i);
+    response(i, 2) = Response.binnedConfidence(i);
+    response(i,
 end
+ end
+ 

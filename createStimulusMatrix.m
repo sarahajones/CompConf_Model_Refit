@@ -1,4 +1,4 @@
-function S = createStimulusMatrix
+function S = createStimulusMatrix (ModelNum, ParticipantNum)
 
 %we want: numGabors, Orientation, ContrastLevel, BlockType
 %we want to stich these together into a design*nTirals matrix
@@ -8,9 +8,9 @@ function S = createStimulusMatrix
 %load in the behavioural data file
 
 load('BehaviouralDataSet_analysed.mat');
- 
-%loop through 13 P
-for iParticipant = 1:13 
+
+S.Model = ModelNum; %ChooseModel
+iParticipant = ParticipantNum; %Choose PArticipant 
 %loop through different stimulus features
     for kDesignFeature = 1:4
 %loop through 2520 trials

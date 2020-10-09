@@ -3,7 +3,7 @@ conf = zeros(nTrials, 1);
 posteriorRatio = zeros(nTrials,1); 
 
 for iTrial = 1:nTrials  
-    metaNoise = randn(1, 1)+(Data.metacognitiveNoise); %computes norm dist of noise
+    metaNoise = randn(1, 1)*(Data.metacognitiveNoise); %computes norm dist of noise
     %metaNoise = 0;
     %plot avg conf as function of percept
     
