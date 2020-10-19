@@ -29,11 +29,11 @@ end
 %label four potential model fits within data struct
 if model.ModelFit ==1
  model.modelName  = 'normativeGenerative'; %easy being Rule, hard being BAyes
-elseif S.ModelFit == 2
+elseif  model.ModelFit == 2
  model.modelName =  'normativeGenerativeAlways'; %always Bayes
-elseif S.ModelFit == 3 
+elseif model.ModelFit == 3 
  model.modelName = 'alternativeGenerative' ; %easy as BAyes, hard being rule
-elseif S.ModelFit == 4
+elseif  model.ModelFit == 4
  model.modelName = 'alternativeGenerativeAlways';%always rule based
 end
 

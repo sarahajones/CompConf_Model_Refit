@@ -27,8 +27,7 @@ iParticipant = ParticipantNum; %Choose PArticipant
             elseif kDesignFeature == 3
 %add ContrastLevel
                 S(jTrial, kDesignFeature) = DataSet.P(iParticipant).Data.ContrastLevel(jTrial, 1); 
-            
-            elseif kDesignFeature == 4
+            elseif kDesignFeature ==
 %add BlockType
                 if S(jTrial, 3) == 1
                     S(jTrial, 4) = 0;
@@ -38,7 +37,6 @@ iParticipant = ParticipantNum; %Choose PArticipant
                 
 %add Model Number
             else 
-                S(jTrial, kDesignFeature) = ModelNum;
 
             end
         end

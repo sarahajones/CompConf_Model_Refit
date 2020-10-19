@@ -22,6 +22,7 @@ S.Stimulus = designMatrix(:, 2);
 S.numGabor = designMatrix(:, 1);
 S.ContrastLevel = designMatrix(:, 3);
 S.BlockType = designMatrix(:, 4); 
+S.Model = designMatrix(1,5);
 
 %Add key values and terms
 %set fixed params 
