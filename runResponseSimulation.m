@@ -16,6 +16,7 @@ Response.Confidence = computeConfidence(S.nTrials, Data,  fixedParam.sigma_s, fi
 %%USE THE THRESHHOLDS (NEED DISCRETE VARIABLE)   
 %freeParam.thresh 
 %sort response thresh here 
+freeParam.thresh = sort(freeParam.thresh);
 Response.binnedConfidence = discretize(Response.Confidence,  freeParam.thresh);
 
 

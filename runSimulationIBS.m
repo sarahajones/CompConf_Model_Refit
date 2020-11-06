@@ -3,8 +3,8 @@ function result =  runSimulationIBS
 data = load('BehaviouralDataSet_analysed.mat');
 
 freeParam = createFreeParam;
-for jParticipant = 1:13
-    for iModel = 1:4
+for jParticipant = 1:1
+    for iModel = 1:1
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %Use IBS to calculate the negative log likelihood for each
         %participant and each model
@@ -28,19 +28,18 @@ for jParticipant = 1:13
         %pub = [5 5];                % Plausible upper bounds
 
 %         %sigmaX / variance
-        sigmaX0 = (randBetweenPoints(((pi/200)^2), ((2*pi)^2), 0, 5, 2));  
-        sigmaXlb = (repmat(((pi/1000)^2), 5, 2)) ; 
-        sigmaXub = (repmat (((10*pi)^2), 5, 2)); 
-        sigmaXplb = (((pi/200)^2));
-        sigmaXpub = (repmat (((2*pi)^2), 5, 2)) ;
+        sigmaX0 = (randBetweenPoints(((pi/200)^2), ((2*pi)^2), 0, 1, 10));  
+        sigmaXlb = (repmat(((pi/1000)^2), 1, 10)) ; 
+        sigmaXub = (repmat (((10*pi)^2), 1 , 10 )); 
+        sigmaXplb = (repmat (((pi/200)^2), 1 , 10 ));
+        sigmaXpub = (repmat (((2*pi)^2), 1 , 10 ));
 
-        %thresh %%%%DO WE NEED TO SORT THESE _ IS IT SORTED ANYWAY?
-            %HOW MANY THRESHOLDS ARE WE WORKING WITH? SET HERE TOO? 
-        thresh0 = (randBetweenPoints(0.25, 1, 0, 3, 1)); 
-        threshlb =  (zeros(3, 1));
-        threshub = (ones(3, 1)); 
-        threshplb =  (zeros(3, 1) + 0.25); 
-        threshpub = (ones(3, 1)); 
+        %thresh. HOW MANY THRESHOLDS ARE WE WORKING WITH?  
+        thresh0 = sort(randBetweenPoints(0.25, 1, 0, 1, 3)); 
+        threshlb =  sort(zeros(1, 3));
+        threshub =  sort(ones(1, 3)); 
+        threshplb =  sort(zeros(1, 3) + 0.25); 
+        threshpub = sort(ones(1, 3)); 
 
         %lapse rate
         lapse0 = (randBetweenPoints(0.01, 0.5, 0, 1, 1)); 
