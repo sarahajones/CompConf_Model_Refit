@@ -1,26 +1,29 @@
 function result =  runSimulationIBS 
 
 freeParam = createFreeParam;
-%numBins = length(freeParam.thresh);
+numBins = length(freeParam.thresh
+for iModel = 2
     for jParticipant = 1
-       for iModel = 1
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %Use IBS to calculate the negative log likelihood for each
-        %participant and each model
+        
+        %lapse rate back down and still solves quickly for morel2 pp1 
+        
+       % metacog .99 ok, .8 ok, .6 ... slows significantly quit before
+       % solved/bugged otu
+       
+       %change the conf bins to be more robust annd flexible pull out any
+       %hard coding. 
+       
+       
         S = createStimulusMatrix(iModel, jParticipant); %create a design matrix to hand to IBS
-        
         respMat = createResponseMatrix(jParticipant); %create a response matrix to hand to IBS
-        
-        %output = passSimulation(freeParam, S);
-        
+        %resp = passSimulation(freeParam, S);
+        output = passSimulation(freeParam, S);
         fun = @(freeParam, S) passSimulation(freeParam, S); %create a function handle for wrapper simulations to hand to IBS
-        
         likeli = ibslike(fun, freeParam, respMat, S); %run IBS 
-        likeli %print likelihood for debugging
+        likeli
         
-        
+        %%bads goes here
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %Use BADS 
         %Set the parameter bounds
         %example from @lacerbi
         %x0 = [0 0];                 % Starting point
@@ -63,11 +66,12 @@ freeParam = createFreeParam;
 %         PLB = [sigmaXplb, thresplb, lapseplb, metaCogplb];
 %         PUB = [sigmaXpub, threshpub, lapsepub, metaCogpub];
 
-       %badsfun = @(freeParam)ibslike(fun,freeParam,respMat,S)
+       %badsfun = @(freeParam)ibslike(fun,freeParam,respMat,S);
        
+
        %bad = bads(badsfun,x0,LB,UB,PLB,PUB)
        
-       end
     end
 end
 
+end
