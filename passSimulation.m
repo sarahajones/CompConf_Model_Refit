@@ -9,9 +9,12 @@ freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),f
     freeParams(7),freeParams(8), freeParams(9),freeParams(10), freeParams(11)];
 
 freeParam.metacogNoise = freeParams(12);
-for i = 13:23
+
+
+for i = 13:length(freeParams)
 freeParam.thresh(i-12) = freeParams(i);
 end
+
 
 %design matrix 
 % needs splicing into the S data struct shape

@@ -30,7 +30,7 @@ iParticipant = ParticipantNum; %Choose PArticipant
             
             elseif kDesignFeature == 4
 %add BlockType
-                if S(jTrial, 3) == 1
+                if S(jTrial, 1) == 1
                     S(jTrial, 4) = 0;
                 else
                     S(jTrial, 4) = 1;
