@@ -1,13 +1,9 @@
-function S = createStimulusMatrix (ModelNum, ParticipantNum)
+function S = createStimulusMatrix (ModelNum, ParticipantNum, DataSet)
 
 %we want: numGabors, Orientation, ContrastLevel, BlockType
 %we want to stitch these together into a design*nTirals matrix
 %currently sit in a datastruct with 13P sub structs each holding the
 %relevant data. 
-
-%load in the behavioural data file
-
-load('BehaviouralDataSet_analysed.mat');
 
 %S.Model = ModelNum; %ChooseModel
 iParticipant = ParticipantNum; %Choose PArticipant 
@@ -18,15 +14,15 @@ iParticipant = ParticipantNum; %Choose PArticipant
             
             if kDesignFeature == 1            
 %add numGabors
-                S(jTrial, kDesignFeature) = DataSet.P(iParticipant).Data.numGabors(jTrial, 1);         
+                S(jTrial, kDesignFeature) = DataSet.DataSet.P(iParticipant).Data.numGabors(jTrial, 1);         
             elseif kDesignFeature == 2
 
 %add Orientation
-                S(jTrial, kDesignFeature) = DataSet.P(iParticipant).Data.Orientation(jTrial, 1);   
+                S(jTrial, kDesignFeature) = DataSet.DataSet.P(iParticipant).Data.Orientation(jTrial, 1);   
 
             elseif kDesignFeature == 3
 %add ContrastLevel
-                S(jTrial, kDesignFeature) = DataSet.P(iParticipant).Data.ContrastLevel(jTrial, 1); 
+                S(jTrial, kDesignFeature) = DataSet.DataSet.P(iParticipant).Data.ContrastLevel(jTrial, 1); 
             
             elseif kDesignFeature == 4
 %add BlockType

@@ -20,9 +20,8 @@ end
 % needs splicing into the S data struct shape
 %matrix is nTrials long,and has columns 
 %nTrials, Stimulus, numGabor, ContrastLevel,Block Type 
-
+S.nTrials = length(designMatrix;
 S.Stimulus = designMatrix(:, 2);
-S.nTrials = length(S.Stimulus);
 S.numGabor = designMatrix(:, 1);
 S.ContrastLevel = designMatrix(:, 3);
 S.BlockType = designMatrix(:, 4); 

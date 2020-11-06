@@ -50,9 +50,6 @@ end
 %housekeeping to pass off to percept function
 Data.ContrastLevel = S.ContrastLevel;
 Data.Orientation = S.Stimulus;
-if length(Data.Orientation) ~= S.nTrials
-    error('Code not functioning as expected')
-end
 Data.Percept = producePercept(S.nTrials, Data); %calculate perceived stimulus value
 
 % If any percepts are outside the range [-pi pi] then move them back 

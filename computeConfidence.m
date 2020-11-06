@@ -1,5 +1,6 @@
 function conf = computeConfidence(nTrials,Data, sigma_s, mu_cat1, Decision, ModelType)
 conf = zeros(nTrials, 1);
+
 posteriorRatio = zeros(nTrials,1); 
 
 for iTrial = 1:nTrials  
