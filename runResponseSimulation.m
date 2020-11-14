@@ -1,23 +1,11 @@
-function Response = runResponseSimulation(Data, fixedParam, S, freeParam, model)
-%% COMPUTE DECISION / RESPONSE
-%BASED ON FULL LOGLIKLIHOOD RATIO, simple rule amounts to the same thing:
-%because the categories are symmetrical and prior is 0.5.
+function Response = runResponseSimulation(Data, fixedParam, S, freeParam)
+%% DECISION make decision / give response
 Response.Decision = giveResp(S.nTrials, Data, fixedParam.mu_cat2, fixedParam.mu_cat1, fixedParam.prior);
 
-%% CONFIDENCE
-%calculate confidence value for each trail based on model type and decision
-%made by the observer based on their percept. 
-%%insert metacognitive noise on the confidence 
+%% CONFIDENCE calculate confidence value for each trial 
 Data.metacognitiveNoise = freeParam.metacogNoise;
-Response.Confidence = computeConfidence(S.nTrials, Data,  fixedParam.sigma_s, fixedParam.mu_cat1, Response.Decision, model.ModelType);
+Response.Confidence = computeConfidence(S.nTrials, Data,  fixedParam.sigma_s, fixedParam.mu_cat1, Response.Decision, S.modelType);
 
-
-%% prep DATA.STRUCT for binning
-%%USE THE THRESHHOLDS (NEED DISCRETE VARIABLE)   
-%freeParam.thresh 
-%sort response thresh here 
 freeParam.thresh = sort(freeParam.thresh);
 Response.binnedConfidence = discretize(Response.Confidence,  freeParam.thresh);
-
-
 end

@@ -1,26 +1,19 @@
  function response = passSimulation (freeParams, designMatrix)
 
-%vector of free params
-% {lapse_rate, 10x sigma_X (5x2), metaCognoise, 10x thresh}
-%this needs converting to a data structure space 
-%take vector of params splice into parts of the data struct 
+%unpack vector of free params
 freeParam.lapseRate = freeParams(1);
 freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),freeParams(6);
     freeParams(7),freeParams(8), freeParams(9),freeParams(10), freeParams(11)];
-
+sort(freeParam.sigma_X(1,:));
+sort(freeParam.sigma_X(2,:));
 freeParam.metacogNoise = freeParams(12);
-
 
 for i = 13:length(freeParams)
 freeParam.thresh(i-12) = freeParams(i);
 end
+sort(freeParam.thresh);
 
-
-%design matrix 
-% needs splicing into the S data struct shape
-%matrix is nTrials long,and has columns 
-%nTrials, Stimulus, numGabor, ContrastLevel,Block Type 
-
+%unpack design matrix 
 S.Stimulus = designMatrix(:, 2);
 S.nTrials = length(S.Stimulus);
 S.numGabor = designMatrix(:, 1);
@@ -28,7 +21,15 @@ S.ContrastLevel = designMatrix(:, 3);
 S.BlockType = designMatrix(:, 4); 
 S.Model = designMatrix(1,5);
 
-%Add key values and terms
+S.modelType = zeros(S.nTrials,1); %model 2 unchanged as always 0
+if S.Model == 4    
+    S.modelType(:,1) = 1; %always alternative 
+elseif S.Model == 1
+    S.modelType(S.BlockType == 1) = 1; %alternative for 2 gabor
+elseif S.Model == 3
+    S.modelType(S.BlockType == 0) = 1; %alternative for one
+end  
+
 %set fixed params 
 fixedParam.mu_cat1 = (1/16).*(pi);
 fixedParam.mu_cat2 = (-1/16).*(pi);
@@ -37,15 +38,12 @@ fixedParam.sigma_s = sqrt(1/7);
 fixedParam.contrasts = [0.1, 0.2, 0.3, 0.4, 0.8]; %external noise
 fixedParam.prior = 0.5; %assume neutral prior for symmetry of decisions
 
-
-%OUT
 %structure of responses and confidence
 Response = runTrialSimulation(fixedParam, S, freeParam);
-%TRANSFORM
-%response = MATRIX - row is trial and one column is response and 1 is binned confidence 
-for i = 1: S.nTrials
-    response(i, 1) = Response.Decision(i);
-    response(i, 2) = Response.binnedConfidence(i);
-end
+
+%TRANSFORM response into a Matrix
+response(:, 1) = Response.Decision;
+response(:, 2) = Response.binnedConfidence;
+
  end
  
