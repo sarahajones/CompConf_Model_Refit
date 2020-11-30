@@ -7,5 +7,6 @@ Data.metacognitiveNoise = freeParam.metacogNoise;
 Response.Confidence = computeConfidence(S.nTrials, Data,  fixedParam.sigma_s, fixedParam.mu_cat1, Response.Decision, S.modelType);
 
 freeParam.thresh = sort(freeParam.thresh);
+freeParam.thresh = [0, freeParam.thresh, 1];
 Response.binnedConfidence = discretize(Response.Confidence,  freeParam.thresh);
 end

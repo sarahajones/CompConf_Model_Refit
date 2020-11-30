@@ -4,8 +4,8 @@
 freeParam.lapseRate = freeParams(1);
 freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),freeParams(6);
     freeParams(7),freeParams(8), freeParams(9),freeParams(10), freeParams(11)];
-sort(freeParam.sigma_X(1,:));
-sort(freeParam.sigma_X(2,:));
+%sort(freeParam.sigma_X(1,:));
+%sort(freeParam.sigma_X(2,:));
 freeParam.metacogNoise = freeParams(12);
 
 for i = 13:length(freeParams)
