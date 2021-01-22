@@ -1,9 +1,7 @@
-function result =  runSimulationIBS
-
+function result =  runIBSBADs (ParticipantNum, ModelNum, data)
 tic
-Participant = 1;
-Model = 2;
-data = load('BehaviouralDataSet_analysed.mat');
+Participant = ParticipantNum;
+Model = ModelNum;
 
 %Use IBS to calculate the negative log likelihood 
 %testFreeParam = createFreeParam; %comment out when running BADs
@@ -16,32 +14,32 @@ fun = @(freeParam, S) passSimulation(freeParam, S); %create a function handle fo
 %Use BADS
 %Set the parameter bounds
 
-%sigmaX / variance
-sigmaX0 = (randBetweenPoints(((pi/200)^2), ((2*pi)^2), 0, 1, 10));
-sigmaXlb = (repmat(((pi/1000)^2), 1, 10)) ;
-sigmaXub = (repmat (((10*pi)^2), 1 , 10 ));
-sigmaXplb = (repmat (((pi/100)^2), 1 , 10 ));
-sigmaXpub = (repmat (((2*pi)^2), 1 , 10 ));
+%sigmaX 
+sigmaX0 = (randBetweenPoints(((pi/100)), ((2*pi)), 0, 1, 10));
+sigmaXlb = (repmat((pi/1000), 1, 10)) ;
+sigmaXub = (repmat ((10*pi), 1 , 10 ));
+sigmaXplb = (repmat ((pi/200), 1 , 10 )); %changed from /200
+sigmaXpub = (repmat ((2*pi), 1 , 10 ));
 
 %thresh. HOW MANY THRESHOLDS ARE WE WORKING WITH?
-thresh0 = sort(randBetweenPoints(0.25, 1, 0, 1, 3));
+thresh0 = sort(randBetweenPoints(0.2, .9, 0, 1, 3));
 threshlb =  sort(zeros(1, 3)+ 0.01);
 threshub =  sort(ones(1, 3)) - 0.01;
-threshplb =  sort(zeros(1, 3) + 0.25);
-threshpub = sort(ones(1, 3))- 0.02;
+threshplb =  sort(zeros(1, 3) + 0.2);%.45
+threshpub = sort(ones(1, 3))- 0.1;
 
 %lapse rate
-lapse0 = (randBetweenPoints(0.05, 0.5, 0, 1, 1));
+lapse0 = (randBetweenPoints(0.7, 0.9, 0, 1, 1));
 lapselb = (0.001); %(just off zero)
 lapseub = (1); %at limit
-lapseplb = (0.05);
-lapsepub = (0.5); %set to chance
+lapseplb = (0.4); %changed from 0.01
+lapsepub = (0.9); %set to chance
 
 %metaCognitive noise (STD OF NOISE)
-metaCog0 = (randBetweenPoints(0.0087, 2, 0, 1, 1));
+metaCog0 = (randBetweenPoints(1, 2, 0, 1, 1));
 metaCoglb = (0.00173);
 metaCogub = (4);
-metaCogplb = (0.0087);
+metaCogplb = (1); % changed from 0.0087
 metaCogpub = (2);
 
 x0 = [lapse0 sigmaX0 metaCog0 thresh0];
@@ -84,6 +82,7 @@ function loglike = badsWrapper(fun, freeParam, respMat, S)
 
 disp(freeParam)
 options.Nreps = 1;
+options.MaxIter = 10^6;
 loglike = ibslike(fun,freeParam,respMat,S, options);
 
 end
