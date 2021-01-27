@@ -1,4 +1,4 @@
-function result =  runIBSBADs (ParticipantNum, ModelNum, data)
+function result =  runIBSBADs(ParticipantNum, ModelNum, data)
 tic
 Participant = ParticipantNum;
 Model = ModelNum;
@@ -7,8 +7,7 @@ Model = ModelNum;
 %testFreeParam = createFreeParam; %comment out when running BADs
 S = createStimulusMatrix(Model, Participant, data); %create a design matrix to hand to IBS
 respMat = createResponseMatrix(Participant, data); %create a response matrix to hand to IBS
-fun = @(freeParam, S) passSimulation(freeParam, S); %create a function handle for wrapper simulations to hand to IBS
-
+fun = @(freeParam, S)passSimulation(freeParam, S); %create a function handle for wrapper simulations to hand to IBS
 % result = ibslike(fun, freeParam, respMat, S); %run IBS
 
 %Use BADS
@@ -21,12 +20,13 @@ sigmaXub = (repmat ((10*pi), 1 , 10 ));
 sigmaXplb = (repmat ((pi/200), 1 , 10 )); %changed from /200
 sigmaXpub = (repmat ((2*pi), 1 , 10 ));
 
-%thresh. HOW MANY THRESHOLDS ARE WE WORKING WITH?
-thresh0 = sort(randBetweenPoints(0.2, .9, 0, 1, 3));
-threshlb =  sort(zeros(1, 3)+ 0.01);
-threshub =  sort(ones(1, 3)) - 0.01;
-threshplb =  sort(zeros(1, 3) + 0.2);%.45
-threshpub = sort(ones(1, 3))- 0.1;
+%thresh. HOW MANY THRESHOLDS ARE WE WORKING WITH? 
+%bring this down to 2 and try again
+thresh0 = sort(randBetweenPoints(0.2, .9, 0, 1, 1));
+threshlb =  sort(zeros(1, 1)+ 0.01);
+threshub =  sort(ones(1, 1) - 0.01);
+threshplb =  sort(zeros(1, 1) + 0.2);%.45
+threshpub = sort(ones(1, 1))- 0.1;
 
 %lapse rate
 lapse0 = (randBetweenPoints(0.7, 0.9, 0, 1, 1));
@@ -52,6 +52,8 @@ badsfun = @(freeParam)badsWrapper(fun,freeParam,respMat,S);
 %badsfun(testFreeParam)
 %result = badsfun(x0);
 result = bads(badsfun,x0,LB,UB,PLB,PUB);
+%resave as two values? what exactly is saved here Sarah?  
+
 toc
 end
 
