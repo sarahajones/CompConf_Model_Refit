@@ -17,30 +17,29 @@ fun = @(freeParam, S)passSimulation(freeParam, S); %create a function handle for
 sigmaX0 = (randBetweenPoints(((pi/100)), ((2*pi)), 0, 1, 10));
 sigmaXlb = (repmat((pi/1000), 1, 10)) ;
 sigmaXub = (repmat ((10*pi), 1 , 10 ));
-sigmaXplb = (repmat ((pi/200), 1 , 10 )); %changed from /200
+sigmaXplb = (repmat ((pi/200), 1 , 10 )); 
 sigmaXpub = (repmat ((2*pi), 1 , 10 ));
 
 %thresh. HOW MANY THRESHOLDS ARE WE WORKING WITH? 
-%bring this down to 2 and try again
-thresh0 = sort(randBetweenPoints(0.2, .9, 0, 1, 1));
+thresh0 = sort(randBetweenPoints(0.45, .9, 0, 1, 1));
 threshlb =  sort(zeros(1, 1)+ 0.01);
 threshub =  sort(ones(1, 1) - 0.01);
-threshplb =  sort(zeros(1, 1) + 0.2);%.45
+threshplb =  sort(zeros(1, 1) + 0.45);
 threshpub = sort(ones(1, 1))- 0.1;
 
 %lapse rate
-lapse0 = (randBetweenPoints(0.7, 0.9, 0, 1, 1));
-lapselb = (0.001); %(just off zero)
+lapse0 = (randBetweenPoints(0.8, 0.9, 0, 1, 1));
+lapselb = (0.8); %(just off zero)
 lapseub = (1); %at limit
-lapseplb = (0.4); %changed from 0.01
-lapsepub = (0.9); %set to chance
+lapseplb = (0.8); 
+lapsepub = (0.99); %set to chance
 
 %metaCognitive noise (STD OF NOISE)
-metaCog0 = (randBetweenPoints(1, 2, 0, 1, 1));
-metaCoglb = (0.00173);
-metaCogub = (4);
-metaCogplb = (1); % changed from 0.0087
-metaCogpub = (2);
+metaCog0 = (randBetweenPoints(100, 150, 0, 1, 1));
+metaCoglb = (100);
+metaCogub = (200);
+metaCogplb = (100); %0.0087
+metaCogpub = (150);
 
 x0 = [lapse0 sigmaX0 metaCog0 thresh0];
 LB = [lapselb sigmaXlb metaCoglb threshlb];
