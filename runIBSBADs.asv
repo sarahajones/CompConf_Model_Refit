@@ -1,10 +1,8 @@
-function result =  runIBSBADs(ParticipantNum, ModelNum, data)
-tic
-Participant = ParticipantNum;
-Model = ModelNum;
+function result =  runIBSBADs(Participant, Model, data)
 
-%Use IBS to calculate the negative log likelihood 
-%testFreeParam = createFreeParam; %comment out when running BADs
+%debug = runDebug(Participant, data);
+
+%set up the IBS simulations
 S = createStimulusMatrix(Model, Participant, data); %create a design matrix to hand to IBS
 respMat = createResponseMatrix(Participant, data); %create a response matrix to hand to IBS
 fun = @(freeParam, S)passSimulation(freeParam, S); %create a function handle for wrapper simulations to hand to IBS
@@ -12,57 +10,61 @@ fun = @(freeParam, S)passSimulation(freeParam, S); %create a function handle for
 
 %Use BADS
 %Set the parameter bounds
-
 %sigmaX 
 sigmaX0 = (randBetweenPoints(((pi/100)), ((2*pi)), 0, 1, 10));
 sigmaXlb = (repmat((pi/1000), 1, 10)) ;
 sigmaXub = (repmat ((10*pi), 1 , 10 ));
-sigmaXplb = (repmat ((pi/200), 1 , 10 )); %changed from /200
+sigmaXplb = (repmat ((pi/200), 1 , 10 )); 
 sigmaXpub = (repmat ((2*pi), 1 , 10 ));
 
 %thresh. HOW MANY THRESHOLDS ARE WE WORKING WITH? 
-thresh0 = sort(randBetweenPoints(0.45, .8, 0, 1, 1));
+thresh0 = sort(randBetweenPoints(0.1, .9, 0, 1, 1));
 threshlb =  sort(zeros(1, 1)+ 0.01);
 threshub =  sort(ones(1, 1) - 0.01);
-threshplb =  sort(zeros(1, 1) + 0.45);%.45
+threshplb =  sort(zeros(1, 1) + 0.1);
 threshpub = sort(ones(1, 1))- 0.1;
 
 %lapse rate
-lapse0 = (randBetweenPoints(0.4, 0.9, 0, 1, 1));
-lapselb = (0.001); %(just off zero)
-lapseub = (1); %at limit
-lapseplb = (0.4); %changed from 0.01
-lapsepub = (0.9); %set to chance
+lapse0 = (randBetweenPoints(0.01, 0.45, 0, 1, 1));
+lapselb = (0.001); %0.01 (just off zero)
+lapseub = (1); % 1, at limit
+lapseplb = (0.01); %0.01 
+lapsepub = (0.45); % 0.5, set to chance
 
-%metaCognitive noise (STD OF NOISE)
-metaCog0 = (randBetweenPoints(.1, 2, 0, 1, 1));
-metaCoglb = (0.00173);
-metaCogub = (4);
-metaCogplb = (.1); % changed from 0.0087
-metaCogpub = (2);
+%metaCognitive noise 
+metaCog0 = (randBetweenPoints(0.1, 2, 0, 1, 1));
+metaCoglb = (0.0001);%0.0001
+metaCogub = (4); %4
+metaCogplb = (0.1); %0.0087
+metaCogpub = (2); %2
 
-x0 = [lapse0 sigmaX0 metaCog0 thresh0];
-LB = [lapselb sigmaXlb metaCoglb threshlb];
-UB = [lapseub sigmaXub metaCogub threshub];
-PLB = [lapseplb sigmaXplb metaCogplb threshplb];
-PUB = [lapsepub sigmaXpub metaCogpub threshpub];
+%confLapse 
+confLapse0 = (randBetweenPoints(0.01, 0.1, 0, 1, 1));
+confLapselb = (0.001); 
+confLapseub = (1); 
+confLapseplb = (0.01);  
+confLapsepub = (0.1); 
+
+
+x0 = [lapse0 sigmaX0 metaCog0 confLapse0 thresh0];
+LB = [lapselb sigmaXlb metaCoglb confLapselb threshlb];
+UB = [lapseub sigmaXub metaCogub confLapseub threshub];
+PLB = [lapseplb sigmaXplb metaCogplb confLapseplb threshplb];
+PUB = [lapsepub sigmaXpub metaCogpub confLapsepub threshpub];
 
 badsfun = @(freeParam)badsWrapper(fun,freeParam,respMat,S);
-%badsfun(testFreeParam)
-%result = badsfun(x0);
-result = bads(badsfun,x0,LB,UB,PLB,PUB);
-%resave as two values? what exactly is saved here Sarah?  
 
-toc
+[X,FVAL] = bads(badsfun,x0,LB,UB,PLB,PUB);
+result = [X, FVAL];
+
 end
 
 function n = randBetweenPoints(lower, upper, epsilon, sizeD1, sizeD2)
 % Draw a random number from [lower + epsilon, upper - epsilon]
 
 % INPUT
-% sizeD1 and sizeD2     size of the output along dimention 1 and 2.
-%                       If not specified uses 1, 1.
-
+% sizeD1 and sizeD2 size of the output along dimention 1 and 2.
+% If not specified uses 1, 1.
 if nargin == 3
     size = {1, 1};
     
@@ -82,7 +84,7 @@ end
 function loglike = badsWrapper(fun, freeParam, respMat, S)
 
 disp(freeParam)
-options.Nreps = 1;
+options.Nreps = 1; %should maybe raise for accuracy - standard is more like 10? 
 options.MaxIter = 10^6;
 loglike = ibslike(fun,freeParam,respMat,S, options);
 
