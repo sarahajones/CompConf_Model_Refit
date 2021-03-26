@@ -21,6 +21,6 @@ for iParticipant = 1:13 %1:13 %for each participant
         end
     end
 end
-
+save("ModelFit")
 end
 
