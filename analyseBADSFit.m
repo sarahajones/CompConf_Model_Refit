@@ -43,12 +43,10 @@ for i = 1:4
 modelFits(14,i) = mean(modelFits((1:13),i));
 end
 
-% %plot
-% models = 1:4;
-% data = (modelFits(14,:))';
-% 
-% figure
-% barplot(models,data)                
+ %plot
+models = 1:4;
+data = (modelFits(14,:))';
+               
 
 %hold on
 
