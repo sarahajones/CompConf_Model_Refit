@@ -2,7 +2,7 @@ function ResponseMatrix = createResponseMatrix (ParticipantNum, DataSet)
 
 %rebin confidence using quantiles on raw confidence within individual
 confidence = DataSet.DataSet.P(ParticipantNum).Data.Confidence;
-pDivisions = 0 : 0.5 : 1;
+pDivisions = 0 : 0.25 : 1; %upped to 4, change this to change the binning
 breaks = quantile(confidence, pDivisions);
 binnedConfidence = discretize(confidence, breaks);
 

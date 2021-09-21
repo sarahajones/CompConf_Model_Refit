@@ -1,9 +1,8 @@
 function [Response] = runTrialSimulation(fixedParam, S, freeParam)
 %% NOISE TO GAIN MEASURE X (PERCEPT)
 %apply noise to the orientation to gain percept value
-S.indexofInterest = Ranint(S.nTrials, 5);
-Indices = (sub2ind(size(freeParam.sigma_X), S.numGabor, S.indexofInterest));
-Data.Sigma_X = freeParam.sigma_X(Indices);
+Data.Sigma_X = freeParam.sigma_X(S.index);
+Data.Sigma_X = (Data.Sigma_X)';
 
 %housekeeping to pass off to percept function
 Data.ContrastLevel = S.ContrastLevel;

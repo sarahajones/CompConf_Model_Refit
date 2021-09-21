@@ -1,4 +1,4 @@
-function result =  runIBSBADs (ParticipantNum, ModelNum)
+function result =  runSimulationIBS (ParticipantNum, ModelNum)
 tic
 Participant = ParticipantNum;
 Model = ModelNum;

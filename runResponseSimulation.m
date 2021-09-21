@@ -14,6 +14,6 @@ Response.binnedConfidence = discretize(Response.Confidence,  freeParam.thresh);
 %overwrite some confidence reports with a random confidence report
 lapse = (rand(1, S.nTrials))';
 vector1 = lapse < freeParam.confLapse; %theses trials should be lapses
-Response.binnedConfidence(vector1) = randi(2, sum(vector1), 1); 
+Response.binnedConfidence(vector1) = randi(4, sum(vector1), 1); %bin changes here too !!
 
 end

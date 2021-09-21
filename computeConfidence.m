@@ -16,6 +16,7 @@ posteriorRatio(vector4) = log((normcdf(0, -Data.Percept(vector4, 1), Data.Sigma_
 
 posteriorRatio = posteriorRatio + metaNoise;
 posteriorRatio = exp(posteriorRatio); 
+
 if any(isnan(posteriorRatio)) 
     disp('error')
 end

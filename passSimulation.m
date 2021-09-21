@@ -2,16 +2,15 @@
 
 %unpack vector of free params
 freeParam.lapseRate = freeParams(1);
-freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),freeParams(6);
+freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),freeParams(6), ...
     freeParams(7),freeParams(8), freeParams(9),freeParams(10), freeParams(11)];
 freeParam.metacogNoise = freeParams(12);
 freeParam.confLapse = freeParams(13);
 
-
 for i = 14:length(freeParams)
 freeParam.thresh(i-13) = freeParams(i);
 end
-sort(freeParam.thresh);
+freeParam.thresh = sort(freeParam.thresh);
 
 %unpack design matrix 
 S.Stimulus = designMatrix(:, 2);
@@ -30,12 +29,22 @@ elseif S.Model == 3
     S.modelType(S.BlockType == 0) = 1; %alternative for one
 end  
 
+S.index(S.ContrastLevel == 0.8) = 1;
+S.index(S.ContrastLevel == 0.4) = 2;
+S.index(S.ContrastLevel == 0.3) = 3;
+S.index(S.ContrastLevel == 0.2) = 4;
+S.index(S.ContrastLevel == 0.1) = 5;
+
+vector1 = S.numGabor == 2;
+S.index(vector1) = S.index(vector1) + 5;
+S.index = (S.index)';
+
+
 %set fixed params 
 fixedParam.mu_cat1 = (1/16).*(pi);
 fixedParam.mu_cat2 = (-1/16).*(pi);
 fixedParam.kappa_s = 7;%%kappa (concentration parameter, needs to be convereted for derivations to sigma)
-fixedParam.sigma_s = sqrt(1/7);
-fixedParam.contrasts = [0.1, 0.2, 0.3, 0.4, 0.8]; %external noise
+fixedParam.sigma_s = sqrt(1/fixedParam.kappa_s);
 fixedParam.prior = 0.5; %assume neutral prior for symmetry of decisions
 
 %structure of responses and confidence
