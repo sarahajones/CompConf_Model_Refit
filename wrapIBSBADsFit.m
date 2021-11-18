@@ -2,7 +2,7 @@ function ModelFit = wrapIBSBADsFit
 
 data = load('BehaviouralDataSet_analysed.mat');
 
-for iParticipant = 1:1 %1:13 %for each participant
+for iParticipant = 1:2 %1:13 %for each participant
     for jModel = 1:4 %1:4 %for each model
         for kRun = 1:1 %1:10 %for ten runs
             isComplete = 0;

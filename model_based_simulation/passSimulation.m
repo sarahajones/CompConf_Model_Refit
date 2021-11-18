@@ -3,9 +3,9 @@
 %unpack vector of free params
 %freeParam.lapseRate = freeParams(1); %these are at 20% and they drop things back to noise level 
 freeParam.lapseRate = 0.00001;
-%freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),freeParams(6), ...
-   freeParams(7),freeParams(8), freeParams(9),freeParams(10), freeParams(11)];
-freeParam.sigma_X = [0.00001, 0.0000001, 0.0000001, 0.000001, 0.000001, 0.0000001, 0.0000001, 0.0000001, 0.0000001, 0.000001];
+freeParam.sigma_X = [freeParams(2), freeParams(3), freeParams(4),freeParams(5),freeParams(6), ...
+  freeParams(7),freeParams(8), freeParams(9),freeParams(10), freeParams(11)];
+%freeParam.sigma_X = [0.00001, 0.0000001, 0.0000001, 0.000001, 0.000001, 0.0000001, 0.0000001, 0.0000001, 0.0000001, 0.000001];
 freeParam.metacogNoise = freeParams(12);
 %freeParam.metacogNoise = 0;
 freeParam.confLapse = freeParams(13);
@@ -15,6 +15,7 @@ for i = 14:length(freeParams)
 freeParam.thresh(i-13) = freeParams(i);
 end
 freeParam.thresh = sort(freeParam.thresh);
+freeParam.thresh = [0.25, 0.5, 0.75];
 
 %unpack design matrix 
 S.Stimulus = designMatrix(:, 2);
