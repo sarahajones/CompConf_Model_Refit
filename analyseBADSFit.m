@@ -2,7 +2,7 @@
 %function - the output structure is loaded and analysed accordingly. 
 
 %load in the data
-data = load('ModelFit.mat');
+data = load('ModelFit_ReFit_test.mat');
 
 %check all tryCounts are at 1 (they are above 1 the model fit had
 %difficulty converging
@@ -27,7 +27,7 @@ for iParticipant = 1:1
     end
 end
 
-save('bestFits.mat')
+save('bestFits_retest.mat')
 
 %now have the best model fit overall (model 2)
 %now within each pp, subtract their model2 fit from the others 
