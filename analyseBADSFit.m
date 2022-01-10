@@ -9,7 +9,7 @@ data = load('ModelFit_ReFit_test.mat');
 
 bestFits = zeros(13,68); %adjust size for new bins
 averageModelFit = zeros(4,1);
-for iParticipant = 1:1
+for iParticipant = 1:13
     for jModel = 1:4
         likeli = zeros(10,1);
         for kRun = 1:10
@@ -58,6 +58,7 @@ data = (modelFits(14,:))';
 
 errlow = [abs(data(1)- ci1(1)), abs(data(2)-ci2(1)), abs(data(3)-ci3(1)), abs(data(4)-ci4(1))];
 errhigh = [abs(data(1)- ci1(2)), abs(data(2)-ci2(2)), abs(data(3)-ci3(2)), abs(data(4)-ci4(2))];
+errBottom = [(data(1)- ci1(1)), (data(2)-ci2(1)), (data(3)-ci3(1)), (data(4)-ci4(1))];
 
 figure
 bar(models,data)                
@@ -71,7 +72,7 @@ er.LineStyle = 'none';
 hold on
 
 colormap winter
-for iPtpnt = 1 : 13
+for iPtpnt = 1:13
            plot(modelFits(iPtpnt, :), 'LineWidth', 1)
    
 end
@@ -91,6 +92,5 @@ for iPtpnt = 1 : 13
    
 end
 hold off
-
 end
 %what a mess - what do we take from this 
