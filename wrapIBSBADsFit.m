@@ -21,6 +21,6 @@ for iParticipant = 1:13 %1:13 %for each participant
         end
     end
 end
-save("ModelFit_ReFit_test")
+save("ModelFit_ReFit_vonMises")
 end
 

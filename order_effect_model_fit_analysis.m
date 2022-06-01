@@ -1,7 +1,7 @@
 %split analysis for order effects
 
 %load in the modelFits
-data = load('ModelFit.mat');
+load('ModelFit_ReFit_vonMises.mat');
 
 %split by order (checking for order effects)
 DataSet = load('BehaviouralDataSet_Analysed'); 
@@ -9,19 +9,19 @@ DataSet = load('BehaviouralDataSet_Analysed');
 %check all tryCounts are at 1 (they are above 1 the model fit had
 %difficulty converging
 
-bestFits = zeros(13,60);
+bestFits_ReTest = zeros(13,68);
 averageModelFit = zeros(4,1);
 for iParticipant = 1:13
     for jModel = 1:4
         likeli = zeros(10,1);
         for kRun = 1:10
-            if data.ans.P(iParticipant).Model(jModel).run(kRun).try >1
+            if ModelFit.P(iParticipant).Model(jModel).run(kRun).try >1
                  warning('TryCount for participant %i is above 1.', iParticipant); 
             end
-          likeli(kRun,1) =  data.ans.P(iParticipant).Model(jModel).run(kRun).result(1,15); %store the likelihood on that run 
+          likeli(kRun,1) =  ModelFit.P(iParticipant).Model(jModel).run(kRun).result(1,17); %store the likelihood on that run 
         end
         [val, idx] = min(likeli); %find the overall min likelihood for that model, for that participant
-        bestFits(iParticipant, ((((jModel-1)*15) + 1 ):((jModel-1)*15) + 15 )) = data.ans.P(iParticipant).Model(jModel).run(idx).result;
+        bestFits_ReTest(iParticipant, ((((jModel-1)*17) + 1 ):((jModel-1)*17) + 17 )) = ModelFit.P(iParticipant).Model(jModel).run(idx).result;
         
     end
 end
@@ -29,7 +29,7 @@ end
 modelFits = zeros(14,4);
 for iParticipant = 1:13
     for jModel = 1:4
-        modelFits(iParticipant, jModel) = bestFits(iParticipant, jModel*15);
+        modelFits(iParticipant, jModel) = bestFits_ReTest(iParticipant, jModel*17);
     end
 end
 
@@ -80,7 +80,7 @@ models = 1:4;
 data = (bestFits1(7,:))';
 errlow = [(ci1_1(1)), ci2_1(1), (ci3_1(1)), (ci4_1(1))];
 errhigh = [(ci1_1(2)), ci2_1(2), (ci3_1(2)), (ci4_1(2))];
-
+figure
 bar(models,data)                
 
 hold on
@@ -91,7 +91,28 @@ er.LineStyle = 'none';
 
 hold off
 
+%check and see how many pp had model2 as the best fitting model
+%see the variation in best fitting models across pp. 
 
+modelNumber = zeros(6,1);
+for iParticipants = 1:6
+    ModelFit1(iParticipants, 5) = min(ModelFit1(iParticipants, 1:4));
+    modelNumber(iParticipants,1) = find(ModelFit1(iParticipants, 1:4)== ModelFit1(iParticipants, 5));
+end
+
+modelNumber = modelNumber';
+
+model = zeros(4,1);
+for i = 1:4
+    model(i,1) = sum(modelNumber == i);
+    
+end
+
+model = model';
+
+figure
+bar(models,model)
+hold off
 
 %look at the two gabor first  data
 for jModel = 1:4
@@ -124,6 +145,7 @@ data = (bestFits2(8,:))';
 errlow = [(ci1_2(1)), ci2_2(1), (ci3_2(1)), (ci4_2(1))];
 errhigh = [(ci1_2(2)), ci2_2(2), (ci3_2(2)), (ci4_2(2))];
 figure
+
 bar(models,data)                
 
 hold on
@@ -132,4 +154,27 @@ er = errorbar(models,data,errlow,errhigh);
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 
+hold off
+
+%check and see how many pp had model2 as the best fitting model
+%see the variation in best fitting models across pp. 
+
+modelNumber = zeros(7,1);
+for iParticipants = 1:7
+    ModelFit2(iParticipants, 5) = min(ModelFit2(iParticipants, 1:4));
+    modelNumber(iParticipants,1) = find(ModelFit2(iParticipants, 1:4)== ModelFit2(iParticipants, 5));
+end
+
+modelNumber = modelNumber';
+
+model = zeros(4,1);
+for i = 1:4
+    model(i,1) = sum(modelNumber == i);
+    
+end
+
+model = model';
+
+figure
+bar(models,model)
 hold off

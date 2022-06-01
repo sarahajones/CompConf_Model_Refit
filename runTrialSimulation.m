@@ -10,7 +10,8 @@ Data.Orientation = S.Stimulus;
 Data.Percept = producePercept(Data); %calculate perceived stimulus value
 
 % If any percepts are outside the range [-pi pi] then move them back 
-Data.Percept = vS_mapBackInRange(Data.Percept, -pi, pi);
+%Data.Percept = vS_mapBackInRange(Data.Percept, -pi, pi); 
+% removed as assuming we are approximating a linear distribution here
 
 Response = runResponseSimulation(Data, fixedParam, S, freeParam);    
 end

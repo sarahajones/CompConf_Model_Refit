@@ -3,7 +3,7 @@
 %these datasets can be passed on for plotting. 
 
 data = load('BehaviouralDataSet_analysed.mat');
-bestFits = load('bestFits.mat'); %make sure this is the corresponding BestFits
+bestFits = load('bestFits_retest.mat'); %make sure this is the corresponding BestFits
 
 for iParticipant = 1:13
     for jModel = 1:4

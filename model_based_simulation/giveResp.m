@@ -6,12 +6,19 @@ resp = zeros(nTrials, 1); %default on zero, if cat 1 percept it stays as the def
 
 lapse = (rand(1,nTrials))';
 vector1 = lapse >= lapseRate; %these trials should be computed properly
-vector2 = lapse < lapseRate; %these trials should be lapses
+vector2 = lapse < lapseRate; %theses trials should be lapses
 
-resp(Data.Percept(vector1, 1) == ((mu_cat2 + mu_cat1)/2)) = randi([0 1], 1, 1); %if response lies on the decision boundary, randomly assign to either cat1 or cat2
-if (sum(Data.Percept(vector1, 1) == ((mu_cat2 + mu_cat1)/2))) >1 ; warning ('More than 1 percept value on the category bound, check!'); end
+respIfNotLapse = nan(nTrials, 1);
+respIfNotLapse(Data.Percept > ((mu_cat2 + mu_cat1)/2)) = 1;
+respIfNotLapse(Data.Percept < ((mu_cat2 + mu_cat1)/2)) = 0;
+respIfNotLapse(Data.Percept == ((mu_cat2 + mu_cat1)/2)) = randi([0 1], 1, 1);
 
-resp(Data.Percept(vector1, 1) > ((mu_cat2 + mu_cat1)/2)) = 1; %if percept falls above the midline respond 1 (cat 2) 
+if (sum(Data.Percept== ((mu_cat2 + mu_cat1)/2))) >1 
+    warning ('More than 1 percept value on the category bound, check!'); 
+end
+
+assert(~any(isnan(respIfNotLapse)))
+resp(vector1) = respIfNotLapse(vector1);
 
 resp(vector2, 1) = randi([0 1], 1, sum(vector2)); %lapse out on the other trials (randomly pick or choose)
 

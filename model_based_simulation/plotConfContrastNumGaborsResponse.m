@@ -18,11 +18,11 @@ YVars.ProduceVar = @(Data, inclTrials) mean(Data.Decision(inclTrials));
 
 YVars.FindIncludedTrials = @(Data, inclTrials) true;
 
-Series(1).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.8;
-Series(2).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.4;
-Series(3).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.3;
-Series(4).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.2;
-Series(5).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.1;
+Series(1).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.8;
+Series(2).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.4;
+Series(3).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.3;
+Series(4).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.2;
+Series(5).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.1;
 
 
 PlotStyle.Xaxis(1).Title = 'Stimulus value(s)';
@@ -43,7 +43,7 @@ PlotStyle.Data(4).PlotType = 'errorShading';
 PlotStyle.Data(5).Name = 'Contrast = 0.1';
 PlotStyle.Data(5).PlotType = 'errorShading';
 
-figHandle1 = mT_plotVariableRelations(DataStore{1,1}, XVars, YVars, Series, PlotStyle);
+figHandle1 = mT_plotVariableRelations(DataStore{2,1}, XVars, YVars, Series, PlotStyle);
 %% behavioural 
 
 XVars.ProduceVar = @(Data) Data.Orientation;
@@ -53,11 +53,11 @@ YVars.ProduceVar = @(Data, inclTrials) mean(Data.Decision(inclTrials));
 
 YVars.FindIncludedTrials = @(Data, inclTrials) true;
 
-Series(1).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.8;
-Series(2).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.4;
-Series(3).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.3;
-Series(4).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.2;
-Series(5).FindIncludedTrials = @(Data)   Data.ContrastLevel == 0.1;
+Series(1).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.8;
+Series(2).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.4;
+Series(3).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.3;
+Series(4).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.2;
+Series(5).FindIncludedTrials = @(Data)   Data.numGabors == 2 & Data.ContrastLevel == 0.1;
 
 
 PlotStyle.Xaxis(1).Title = 'Stimulus value(s)';

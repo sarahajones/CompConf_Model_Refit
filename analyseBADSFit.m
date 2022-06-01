@@ -2,7 +2,7 @@
 %function - the output structure is loaded and analysed accordingly. 
 
 %load in the data
-data = load('ModelFit_ReFit_test.mat');
+data = load('ModelFit_ReFit_vonMises.mat');
 
 %check all tryCounts are at 1 (they are above 1 the model fit had
 %difficulty converging
@@ -27,7 +27,7 @@ for iParticipant = 1:13
     end
 end
 
-save('bestFits_retest.mat')
+save('bestFits.mat')
 
 %now have the best model fit overall (model 2)
 %now within each pp, subtract their model2 fit from the others 
@@ -88,9 +88,36 @@ for iPtpnt = 1 : 13
            plot(1:5, bestFits(iPtpnt, ((((jModel-1)*17) + 2):((jModel-1)*17) + 6 )),'Color', [0, 0, 0], 'LineWidth', 1) %black 
            hold on
            plot(1:5, bestFits(iPtpnt, ((((jModel-1)*17) + 7):((jModel-1)*17) + 11 )), 'Color', [0.2, 0.7, 0.7], 'LineWidth', 1) %green
-           hold on
-   
+           hold on   
 end
 hold off
 end
-%what a mess - what do we take from this 
+
+
+%check and see how many pp had model2 as the best fitting model
+%see the variation in best fitting models across pp. 
+winningModels = zeros(13,5);
+for iParticipant = 1:13
+    for jModel = 1:4
+        winningModels(iParticipant, jModel) = bestFits(iParticipant, jModel*17);
+    end
+end
+
+modelNumber = zeros(13,1);
+for iParticipants = 1:13
+    winningModels(iParticipants, 5) = min(winningModels(iParticipants, 1:4));
+    modelNumber(iParticipants,1) = find(winningModels(iParticipants, 1:4)== winningModels(iParticipants, 5));
+end
+
+modelNumber = modelNumber';
+
+model = zeros(4,1);
+for i = 1:4
+    model(i,1) = sum(modelNumber == i);
+    
+end
+
+model = model';
+
+figure
+bar(models,model)

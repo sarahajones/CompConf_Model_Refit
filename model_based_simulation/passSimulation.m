@@ -15,7 +15,7 @@ for i = 14:length(freeParams)
 freeParam.thresh(i-13) = freeParams(i);
 end
 freeParam.thresh = sort(freeParam.thresh);
-freeParam.thresh = [0.25, 0.5, 0.75];
+%freeParam.thresh = [0.25, 0.5, 0.75];
 
 %unpack design matrix 
 S.Stimulus = designMatrix(:, 2);
