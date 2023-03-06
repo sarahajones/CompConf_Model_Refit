@@ -21,7 +21,7 @@ sigmaX0 = (randBetweenPoints(((pi/100)), ((pi)), 0, 1, 10));
 sigmaXlb = (repmat((pi/1000), 1, 10)) ;
 sigmaXub = (repmat ((pi), 1 , 10 ));
 sigmaXplb = (repmat ((pi/100), 1 , 10 )); 
-sigmaXpub = (repmat ((pi), 1 , 10 )); %JUSTIFY YOUR VALUES SARAH - think circle. 
+sigmaXpub = (repmat ((pi), 1 , 10 )); %JUSTIFY YOUR VALUES - think circle. 
 
 %metaCognitive noise 
 metaCog0 = (randBetweenPoints(0.0087, 2, 0, 1, 1));
